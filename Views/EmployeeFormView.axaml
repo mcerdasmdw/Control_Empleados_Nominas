@@ -1,0 +1,280 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Planilla_RRHH.ViewModels.Employees"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="700" d:DesignHeight="800"
+             x:Class="Planilla_RRHH.Views.EmployeeFormView"
+             x:DataType="vm:EmployeeFormViewModel">
+
+    <Design.DataContext>
+        <vm:EmployeeFormViewModel />
+    </Design.DataContext>
+
+    <Border Background="{DynamicResource SurfaceBrush}"
+            CornerRadius="8"
+            Padding="24"
+            Margin="24"
+            MaxWidth="700"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            BorderBrush="{DynamicResource DividerBrush}"
+            BorderThickness="1">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="20">
+                <!-- Header -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="{Binding Title}"
+                               FontSize="24"
+                               FontWeight="Bold" />
+                    <TextBlock Text="{Binding IsEditing, Converter={StaticResource EditingSubtitle}}"
+                               FontSize="14"
+                               Foreground="{DynamicResource SecondaryTextBrush}" />
+                </StackPanel>
+
+                <!-- Error Message -->
+                <Border Background="{DynamicResource ErrorSurfaceBrush}"
+                        CornerRadius="6"
+                        Padding="12"
+                        BorderBrush="{DynamicResource ErrorBrush}"
+                        BorderThickness="1"
+                        IsVisible="{Binding ErrorMessage, Converter={StaticResource IsNotNullOrEmpty}}">
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               Foreground="{DynamicResource ErrorBrush}"
+                               FontSize="13"
+                               TextWrapping="Wrap" />
+                </Border>
+
+                <!-- Loading Overlay -->
+                <ProgressBar IsIndeterminate="True"
+                             IsVisible="{Binding IsLoading}"
+                             Margin="0,0,0,8" />
+
+                <!-- Datos Personales -->
+                <Border Background="{DynamicResource PageBrush}"
+                        CornerRadius="6"
+                        Padding="16"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="1">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Datos personales"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}" />
+                        
+                        <Grid ColumnDefinitions="*, *">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Spacing="6">
+                                <TextBlock Text="Nombre completo *" FontWeight="Medium" />
+                                <TextBox Text="{Binding FullName, Mode=TwoWay}"
+                                         Watermark="Juan Pérez González"
+                                         MaxLength="200" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="6">
+                                <TextBlock Text="Cédula *" FontWeight="Medium" />
+                                <TextBox Text="{Binding Cedula, Mode=TwoWay}"
+                                         Watermark="1-2345-6789"
+                                         MaxLength="20" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*, *">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Spacing="6">
+                                <TextBlock Text="Teléfono" FontWeight="Medium" />
+                                <TextBox Text="{Binding Phone, Mode=TwoWay}"
+                                         Watermark="2222-3333"
+                                         MaxLength="30" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="6">
+                                <TextBlock Text="Correo electrónico" FontWeight="Medium" />
+                                <TextBox Text="{Binding Email, Mode=TwoWay}"
+                                         Watermark="juan@ejemplo.com"
+                                         MaxLength="255" />
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Dirección" FontWeight="Medium" />
+                            <TextBox Text="{Binding Address, Mode=TwoWay}"
+                                     Watermark="San José, Costa Rica"
+                                     MaxLength="500"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     Height="80" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Datos Laborales -->
+                <Border Background="{DynamicResource PageBrush}"
+                        CornerRadius="6"
+                        Padding="16"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="1">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Datos laborales"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}" />
+                        
+                        <Grid ColumnDefinitions="*, *">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Spacing="6">
+                                <TextBlock Text="Puesto" FontWeight="Medium" />
+                                <TextBox Text="{Binding Position, Mode=TwoWay}"
+                                         Watermark="Mesero, Cocinero, Gerente..."
+                                         MaxLength="100" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="6">
+                                <TextBlock Text="Tipo de salario" FontWeight="Medium" />
+                                <ComboBox ItemsSource="{Binding SalaryTypes}"
+                                          SelectedItem="{Binding SalaryType, Mode=TwoWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource EnumToDisplayString}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*, *, *">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Spacing="6">
+                                <TextBlock Text="Salario base" FontWeight="Medium" />
+                                <TextBox Text="{Binding BaseSalary, Mode=TwoWay, StringFormat='{}{0:N2}'}"
+                                         Watermark="0.00" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="6">
+                                <TextBlock Text="Fecha contratación" FontWeight="Medium" />
+                                <DatePicker SelectedDate="{Binding HireDate, Mode=TwoWay}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="4" Spacing="6">
+                                <TextBlock Text="Estado" FontWeight="Medium" />
+                                <ComboBox ItemsSource="{Binding EmployeeStatuses}"
+                                          SelectedItem="{Binding Status, Mode=TwoWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource EnumToDisplayString}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Datos Bancarios -->
+                <Border Background="{DynamicResource PageBrush}"
+                        CornerRadius="6"
+                        Padding="16"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="1">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Datos bancarios (opcional)"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}" />
+                        
+                        <Grid ColumnDefinitions="*, *">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Spacing="6">
+                                <TextBlock Text="Banco" FontWeight="Medium" />
+                                <TextBox Text="{Binding BankName, Mode=TwoWay}"
+                                         Watermark="Banco Nacional, BAC, BCR..."
+                                         MaxLength="100" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="6">
+                                <TextBlock Text="Tipo de cuenta" FontWeight="Medium" />
+                                <ComboBox ItemsSource="{Binding BankAccountTypes}"
+                                          SelectedItem="{Binding BankAccountType, Mode=TwoWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource EnumToDisplayString}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*, *">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Spacing="6">
+                                <TextBlock Text="Número de cuenta" FontWeight="Medium" />
+                                <TextBox Text="{Binding BankAccountNumber, Mode=TwoWay}"
+                                         Watermark="123456789"
+                                         MaxLength="50" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="6">
+                                <TextBlock Text="IBAN" FontWeight="Medium" />
+                                <TextBox Text="{Binding BankIBAN, Mode=TwoWay}"
+                                         Watermark="CR12 3456 7890 1234 5678 9"
+                                         MaxLength="50" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Observaciones -->
+                <Border Background="{DynamicResource PageBrush}"
+                        CornerRadius="6"
+                        Padding="16"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="1">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Observaciones" FontWeight="Medium" />
+                        <TextBox Text="{Binding Notes, Mode=TwoWay}"
+                                 Watermark="Información adicional..."
+                                 MaxLength="2000"
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 Height="100" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Actions -->
+                <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right">
+                    <Button Content="Cancelar"
+                            Command="{Binding CancelCommand}"
+                            Padding="24,10"
+                            FontSize="14" />
+                    <Button Content="{Binding IsEditing, Converter={StaticResource SaveButtonText}}"
+                            Command="{Binding SaveCommand}"
+                            IsEnabled="{Binding !IsLoading}"
+                            Padding="24,10"
+                            FontSize="14"
+                            FontWeight="Medium"
+                            Classes="accent" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</UserControl>

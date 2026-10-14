@@ -1,0 +1,42 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Planilla_RRHH.App"
+             xmlns:local="using:Planilla_RRHH"
+             xmlns:converters="using:Planilla_RRHH.Converters"
+             RequestedThemeVariant="Default">
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+        
+        <!-- Custom Styles -->
+        <StyleInclude Source="avares://Planilla-RRHH/Resources/Styles/AppStyles.axaml" />
+    </Application.Styles>
+
+    <Application.Resources>
+        <!-- Converters -->
+        <converters:BoolToStringConverter x:Key="ActiveToText" TrueValue="Activo" FalseValue="Inactivo" />
+        <converters:BoolToColorConverter x:Key="ActiveToColor" TrueColor="Green" FalseColor="Red" />
+        <converters:BoolToStringConverter x:Key="ToggleButtonText" TrueValue="Desactivar" FalseValue="Activar" />
+        <converters:BoolToStringConverter x:Key="ToggleTooltip" TrueValue="Desactivar" FalseValue="Activar" />
+        <converters:BoolToStringConverter x:Key="EditingSubtitle" TrueValue="Modifique los datos del empleado" FalseValue="Complete la información del nuevo empleado" />
+        <converters:BoolToStringConverter x:Key="SaveButtonText" TrueValue="Actualizar" FalseValue="Guardar" />
+        <converters:BoolToStringConverter x:Key="NavButtonClass" TrueValue="nav-enabled" FalseValue="nav-disabled" />
+        
+        <converters:StringIsNullOrEmptyConverter x:Key="IsNullOrEmpty" />
+        <converters:StringIsNotNullOrEmptyConverter x:Key="IsNotNullOrEmpty" />
+        
+        <converters:IntToBoolConverter x:Key="IsZero" />
+        <converters:IntToBoolConverter x:Key="IsGreaterThanZero" />
+        <converters:IntToBoolConverter x:Key="IsGreaterThanOne" />
+        
+        <converters:NullToBoolConverter x:Key="IsNotNull" />
+        
+        <converters:EnumToDisplayStringConverter x:Key="EnumToDisplayString" />
+        
+        <converters:BoolToDoubleConverter x:Key="SidebarWidth" TrueValue="260" FalseValue="60" />
+    </Application.Resources>
+</Application>

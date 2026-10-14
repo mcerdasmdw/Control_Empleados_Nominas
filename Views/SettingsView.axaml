@@ -1,0 +1,175 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Planilla_RRHH.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="1000" d:DesignHeight="700"
+             x:Class="Planilla_RRHH.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+
+    <Design.DataContext>
+        <vm:SettingsViewModel />
+    </Design.DataContext>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="24" Spacing="24">
+        <!-- Header -->
+        <StackPanel Spacing="4">
+            <TextBlock Text="Configuración del restaurante"
+                       FontSize="28"
+                       FontWeight="Bold" />
+            <TextBlock Text="Información general que aparecerá en documentos y reportes"
+                       FontSize="14"
+                       Foreground="{DynamicResource SecondaryTextBrush}" />
+        </StackPanel>
+
+        <!-- Form -->
+        <Border Background="{DynamicResource SurfaceBrush}"
+                CornerRadius="8"
+                Padding="24"
+                BorderBrush="{DynamicResource DividerBrush}"
+                BorderThickness="1"
+                MaxWidth="700"
+                HorizontalAlignment="Left">
+            <StackPanel Spacing="20">
+                <!-- Info General -->
+                <TextBlock Text="Información general"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="{DynamicResource AccentBrush}" />
+
+                <Grid ColumnDefinitions="*, *">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Spacing="6">
+                        <TextBlock Text="Nombre comercial" FontWeight="Medium" />
+                        <TextBox Text="{Binding CommercialName, Mode=TwoWay}"
+                                 Watermark="Restaurante El Sabor"
+                                 MaxLength="200" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="6">
+                        <TextBlock Text="Cédula física/jurídica" FontWeight="Medium" />
+                        <TextBox Text="{Binding LegalId, Mode=TwoWay}"
+                                 Watermark="1-2345-6789"
+                                 MaxLength="30" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid ColumnDefinitions="*, *">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Spacing="6">
+                        <TextBlock Text="Teléfono" FontWeight="Medium" />
+                        <TextBox Text="{Binding Phone, Mode=TwoWay}"
+                                 Watermark="2222-3333"
+                                 MaxLength="30" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="6">
+                        <TextBlock Text="Correo electrónico" FontWeight="Medium" />
+                        <TextBox Text="{Binding Email, Mode=TwoWay}"
+                                 Watermark="contacto@restaurante.com"
+                                 MaxLength="255" />
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Dirección física" FontWeight="Medium" />
+                    <TextBox Text="{Binding Address, Mode=TwoWay}"
+                             Watermark="San José, Costa Rica, distrito, barrio, señas..."
+                             MaxLength="500"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Height="100" />
+                </StackPanel>
+
+                <!-- Moneda y Logo -->
+                <Separator Margin="0,8" />
+
+                <TextBlock Text="Configuración regional y visual"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="{DynamicResource AccentBrush}" />
+
+                <Grid ColumnDefinitions="*, *">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Spacing="6">
+                        <TextBlock Text="Moneda" FontWeight="Medium" />
+                        <TextBox Text="{Binding Currency, Mode=TwoWay}"
+                                 Watermark="CRC"
+                                 IsReadOnly="True"
+                                 Background="{DynamicResource SubtleBrush}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="6">
+                        <TextBlock Text="Logotipo" FontWeight="Medium" />
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0"
+                                     Text="{Binding LogoPath, Mode=TwoWay}"
+                                     Watermark="Ruta del archivo de imagen (PNG/JPG)"
+                                     IsReadOnly="True" />
+                            <Button Grid.Column="2"
+                                    Content="Seleccionar"
+                                    Command="{Binding SelectLogoCommand}"
+                                    VerticalAlignment="Bottom"
+                                    Padding="16,8" />
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Preview -->
+                <Border Grid.ColumnSpan="2"
+                        Background="{DynamicResource PageBrush}"
+                        CornerRadius="6"
+                        Padding="16"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="1"
+                        IsVisible="{Binding LogoPath, Converter={StaticResource IsNotNullOrEmpty}}">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Vista previa del logotipo" FontWeight="Medium" FontSize="13" />
+                        <Image Source="{Binding LogoPath}"
+                               MaxWidth="200"
+                               MaxHeight="100"
+                               Stretch="Uniform"
+                               HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Status & Actions -->
+                <TextBlock Text="{Binding StatusMessage}"
+                           FontSize="13"
+                           Foreground="{DynamicResource SecondaryTextBrush}"
+                           HorizontalAlignment="Center" />
+
+                <ProgressBar IsIndeterminate="True"
+                             IsVisible="{Binding IsLoading}"
+                             Margin="0,8,0,0" />
+
+                <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right">
+                    <Button Content="Guardar configuración"
+                            Command="{Binding SaveCommand}"
+                            IsEnabled="{Binding !IsLoading}"
+                            Padding="24,10"
+                            FontSize="14"
+                            FontWeight="Medium"
+                            Classes="accent" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+    </ScrollViewer>
+</UserControl>

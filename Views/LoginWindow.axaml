@@ -1,0 +1,121 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Planilla_RRHH.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DesignWidth="420" d:DesignHeight="600"
+        x:Class="Planilla_RRHH.Views.LoginWindow"
+        x:DataType="vm:LoginViewModel"
+        Title="Planilla-RRHH - Inicio de sesión"
+        Width="420"
+        Height="600"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        Icon="/Assets/avalonia-logo.ico">
+
+    <Design.DataContext>
+        <vm:LoginViewModel />
+    </Design.DataContext>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+    <Border Background="{DynamicResource SurfaceBrush}"
+            BorderBrush="{DynamicResource DividerBrush}"
+            BorderThickness="1"
+            CornerRadius="12"
+            Margin="24"
+            Padding="24,28">
+        <StackPanel Spacing="24" HorizontalAlignment="Stretch">
+            <!-- Logo / Title -->
+            <StackPanel Spacing="8" HorizontalAlignment="Stretch">
+                <TextBlock Text="Planilla-RRHH"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="{DynamicResource AccentBrush}"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+                <TextBlock Text="Sistema de gestión de empleados"
+                           FontSize="14"
+                           Foreground="{DynamicResource SecondaryTextBrush}"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+            </StackPanel>
+
+            <Border Height="1" Background="{DynamicResource DividerBrush}" />
+
+            <!-- Username -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="Usuario" FontWeight="Medium" />
+                <TextBox Text="{Binding Username, Mode=TwoWay}"
+                         Watermark="Nombre de usuario"
+                         AutomationProperties.Name="Usuario"
+                         MinHeight="44"
+                         Padding="12,10"
+                         FontSize="14" />
+            </StackPanel>
+
+            <!-- Password -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="Contraseña" FontWeight="Medium" />
+                <TextBox Text="{Binding Password, Mode=TwoWay}"
+                         Watermark="Contraseña"
+                         PasswordChar="•"
+                         AutomationProperties.Name="Contraseña"
+                         MinHeight="44"
+                         Padding="12,10"
+                         FontSize="14" />
+            </StackPanel>
+
+            <!-- Error Message -->
+            <Border Background="{DynamicResource ErrorSurfaceBrush}"
+                    BorderBrush="{DynamicResource ErrorBrush}"
+                    BorderThickness="1,0,0,0"
+                    CornerRadius="6"
+                    Padding="12"
+                    IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}, FallbackValue=False}">
+                <TextBlock Text="{Binding ErrorMessage}"
+                       Foreground="{DynamicResource ErrorBrush}"
+                       FontSize="14"
+                       TextWrapping="Wrap" />
+            </Border>
+
+            <!-- Buttons -->
+            <StackPanel Spacing="8">
+                <Button Content="Iniciar sesión"
+                        Command="{Binding LoginCommand}"
+                        IsEnabled="{Binding CanLogin}"
+                        IsDefault="True"
+                        AutomationProperties.Name="Iniciar sesión"
+                        HorizontalAlignment="Stretch"
+                        MinHeight="48"
+                        FontSize="14"
+                        FontWeight="Medium"
+                        Classes="accent" />
+
+                <Button Content="¿Olvidó su contraseña?"
+                        Command="{Binding ForgotPasswordCommand}"
+                        AutomationProperties.Name="¿Olvidó su contraseña?"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        MinHeight="44"
+                        Classes="flat"
+                        Padding="8" />
+            </StackPanel>
+
+            <!-- Loading indicator -->
+            <ProgressBar IsIndeterminate="True"
+                         IsVisible="{Binding IsLoading}"
+                         AutomationProperties.Name="Inicio de sesión en curso"
+                         HorizontalAlignment="Stretch" />
+
+            <!-- Footer -->
+            <TextBlock Text="Versión 1.0.0 - MVP"
+                       FontSize="12"
+                       Foreground="{DynamicResource SecondaryTextBrush}"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap" />
+        </StackPanel>
+    </Border>
+    </ScrollViewer>
+</Window>

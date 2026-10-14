@@ -1,0 +1,16 @@
+# Configuración de proyecto; conserva el modelo y permisos del entorno.
+[agents]
+enabled = true
+
+
+# Integraciones solicitadas por el usuario el 2026-10-12 (R-H01).
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp"
+enabled = true
+startup_timeout_sec = 60
+
+[mcp_servers.chrome-devtools]
+command = 'C:\Users\Maikol C\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe'
+args = ['E:\Documentos\Programacion\Planilla-RRHH - GPT Codex\Planilla-RRHH\.tools\mcp\node_modules\chrome-devtools-mcp\build\src\bin\chrome-devtools-mcp.js', '--no-usage-statistics']
+enabled = true
+startup_timeout_sec = 60

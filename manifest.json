@@ -1,0 +1,19 @@
+{
+  ".codex/agents/Backend-Coder.toml": "9944b546f157afa49db3e13244abb6a3cc51c7fd26a7ae84bce9cc71b9a9b539",
+  ".codex/agents/Frontend-Coder.toml": "f3e8ae148a5149c50fb58504cd2213cfe4359c14683de38e099e9304d30dbacf",
+  ".codex/agents/revisor.toml": "2b1f4a030e522e52354eaa6c648f9fa0c5c1989291c59ec82160fdc22dcd3666",
+  ".codex/agents/Tester-datos.toml": "7f100b76161363e4ff6dd3c1db6e68b9b7f39a75f19985948123450d6916c296",
+  ".codex/config.toml": "50b2b1b264649cd6f8af9923b798c2797a9b470456b48d2bc4c1b69f95cd1b06",
+  "AGENTS.md": "2e5a3562fb676eeab1504b617d8575a6446bd2b90e86db44c9b07284250cb18f",
+  "docs/migracion.md": "6658c9292af2d8142534709ea742cb79eba6d266a5544e4ece997b50e41dd7dc",
+  "docs/sdd/01-constitucion.md": "c813517d1e04581acfc438e26df4b3da8e3b4775795fb08a6dcf235b661ebf52",
+  "docs/sdd/02-especificacion.md": "fd0f846d18deb8d0bcfa61ecc65809a2526ec27e1593eae54c52b0b2b12bb814",
+  "docs/sdd/03-clarificacion.md": "128b5a503218163b242522e3539aaf07580ba807d0775204266929b39d83842c",
+  "docs/sdd/04-plan-tecnico.md": "676087b115d30a924b9caefa628024f839955b0cfcbf849678e05d174309a995",
+  "docs/sdd/05-tareas.md": "b037f4b7c478fa5b40fa4a3cdeebd91ac93e2b3638ec734015271bbfb50bd928",
+  "docs/sdd/06-construccion.md": "343df2c957629f244c22d539716066ac7a841096c18aca1e842c49033271d310",
+  "docs/sdd/README.md": "da507aa0784526bf38a89ebc070e09f59aaeaa402dbb3da4b2c2f8545def0198",
+  "docs/verificacion.md": "caa680d1660994b980d83c1a3fa358b5c28fe2bdd8027b8b44664ddac1613738",
+  "memory.md": "02f248b537a951be72816e7d6492197005ad3860c5bf67c382be0fb26a4140df",
+  "README.md": "a55576aa4fd2c33a5d84a4fd8d251b5f04c497aff5c43df0d55bd22e0b65b1b6"
+}

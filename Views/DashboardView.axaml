@@ -1,0 +1,194 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Planilla_RRHH.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="1000" d:DesignHeight="700"
+             x:Class="Planilla_RRHH.Views.DashboardView"
+             x:DataType="vm:DashboardViewModel">
+
+    <Design.DataContext>
+        <vm:DashboardViewModel />
+    </Design.DataContext>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24" Spacing="24">
+            <!-- Header -->
+            <StackPanel Spacing="4">
+                <TextBlock Text="Dashboard"
+                           FontSize="28"
+                           FontWeight="Bold" />
+                <TextBlock Text="Resumen general del sistema"
+                           FontSize="14"
+                           Foreground="{DynamicResource SecondaryTextBrush}" />
+            </StackPanel>
+
+            <!-- Stats Cards -->
+            <Grid ColumnDefinitions="*, *, *">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <!-- Total Employees -->
+                <Border Grid.Column="0"
+                        Background="{DynamicResource SurfaceBrush}"
+                        CornerRadius="8"
+                        Padding="20"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="1">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Total Empleados"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource SecondaryTextBrush}" />
+                        <TextBlock Text="{Binding TotalEmployees}"
+                                   FontSize="36"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}" />
+                        <WrapPanel Margin="0,8,0,0">
+                            <TextBlock Text="Activos: " FontSize="13" />
+                            <TextBlock Text="{Binding ActiveEmployees}" Margin="4,0,12,0" FontSize="13" FontWeight="Medium" Foreground="{DynamicResource SuccessBrush}" />
+                            <TextBlock Text="Inactivos: " FontSize="13" />
+                            <TextBlock Text="{Binding InactiveEmployees}" Margin="4,0,12,0" FontSize="13" FontWeight="Medium" Foreground="{DynamicResource SecondaryTextBrush}" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Active Employees -->
+                <Border Grid.Column="2"
+                        Background="{DynamicResource SurfaceBrush}"
+                        CornerRadius="8"
+                        Padding="20"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="1">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Empleados Activos"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource SecondaryTextBrush}" />
+                        <TextBlock Text="{Binding ActiveEmployees}"
+                                   FontSize="36"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource SuccessBrush}" />
+                        <TextBlock Text="Empleados con estado Activo"
+                                   FontSize="13"
+                                   Foreground="{DynamicResource SecondaryTextBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Restaurant Info -->
+                <Border Grid.Column="4"
+                        Background="{DynamicResource SurfaceBrush}"
+                        CornerRadius="8"
+                        Padding="20"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="1">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Restaurante"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource SecondaryTextBrush}" />
+                        <TextBlock Text="{Binding RestaurantSettings.CommercialName, FallbackValue='No configurado'}"
+                                   FontSize="18"
+                                   TextWrapping="Wrap"
+                                   FontWeight="Bold" />
+                        <TextBlock Text="{Binding RestaurantSettings.Address, FallbackValue='Dirección no configurada'}"
+                                   FontSize="13"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Recent Employees -->
+            <Border Background="{DynamicResource SurfaceBrush}"
+                    CornerRadius="8"
+                    Padding="20"
+                    BorderBrush="{DynamicResource DividerBrush}"
+                    BorderThickness="1">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock Text="Últimos empleados registrados"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding StatusMessage}"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <Border Background="{DynamicResource PageBrush}"
+                            CornerRadius="6"
+                            BorderBrush="{DynamicResource DividerBrush}"
+                            BorderThickness="1">
+                        <Grid>
+                            <DataGrid ItemsSource="{Binding RecentEmployees}"
+                                      AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      CanUserResizeColumns="True"
+                                      CanUserSortColumns="True"
+                                      GridLinesVisibility="Horizontal"
+                                      BorderThickness="0"
+                                      Margin="1">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Nombre" Binding="{Binding FullName}" Width="*" />
+                                    <DataGridTextColumn Header="Cédula" Binding="{Binding Cedula}" Width="150" />
+                                    <DataGridTextColumn Header="Puesto" Binding="{Binding Position}" Width="*" />
+                                    <DataGridTemplateColumn Header="Estado" Width="100">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Ellipse Width="10" Height="10"
+                                                             Fill="{Binding Status, Converter={StaticResource ActiveToColor}}"
+                                                             VerticalAlignment="Center" />
+                                                    <TextBlock Text="{Binding StatusText}"
+                                                               VerticalAlignment="Center"
+                                                               FontWeight="Medium" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <TextBlock Text="No hay empleados registrados"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource SecondaryTextBrush}"
+                                       FontSize="14"
+                                       IsVisible="{Binding RecentEmployees.Count, Converter={StaticResource IsZero}}" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Future Payroll Section -->
+            <Border Classes="warning" Background="{DynamicResource WarningSurfaceBrush}"
+                    CornerRadius="8"
+                    Padding="20"
+                    BorderBrush="{DynamicResource WarningBorderBrush}"
+                    BorderThickness="1">
+                <StackPanel Spacing="12">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock Text="i" FontSize="24" VerticalAlignment="Center" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Módulo de Nómina (Próximamente)"
+                                       FontSize="18"
+                                       FontWeight="Bold" />
+                            <TextBlock Text="Esta sección está reservada para la futura implementación del cálculo y pago de nóminas."
+                                       FontSize="13"
+                                       TextWrapping="Wrap" Foreground="{DynamicResource WarningTextBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <TextBlock Text="Funcionalidades previstas: cálculo de salarios, horas extra, deducciones, cargas sociales, generación de recibos, transferencias bancarias y reportes."
+                               FontSize="13"
+                               TextWrapping="Wrap"
+                               Foreground="{DynamicResource SecondaryTextBrush}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

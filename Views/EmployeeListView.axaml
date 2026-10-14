@@ -1,0 +1,185 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Planilla_RRHH.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="1000" d:DesignHeight="700"
+             x:Class="Planilla_RRHH.Views.EmployeeListView"
+             x:DataType="vm:EmployeeListViewModel">
+
+    <Design.DataContext>
+        <vm:EmployeeListViewModel />
+    </Design.DataContext>
+
+    <Grid Margin="24" RowDefinitions="Auto,Auto,*">
+        <!-- Header -->
+        <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,24">
+            <StackPanel Spacing="4">
+                <TextBlock Text="Gestión de empleados"
+                           FontSize="28"
+                           FontWeight="Bold" />
+                <TextBlock Text="Registre, consulte y administre la información del personal"
+                           FontSize="14"
+                           Foreground="{DynamicResource SecondaryTextBrush}" />
+            </StackPanel>
+
+            <Button Grid.Column="1"
+                    Content="Nuevo empleado"
+                    Command="{Binding AddEmployeeCommand}"
+                    IsEnabled="{Binding CanCreate}"
+                    Height="40"
+                    Padding="20,0"
+                    FontSize="14"
+                    FontWeight="Medium"
+                    Classes="accent"
+                    VerticalAlignment="Bottom" />
+        </Grid>
+
+        <!-- Search & Filters -->
+        <Border Grid.Row="1" Margin="0,0,0,20" Background="{DynamicResource SurfaceBrush}"
+                CornerRadius="8"
+                Padding="16"
+                BorderBrush="{DynamicResource DividerBrush}"
+                BorderThickness="1">
+            <Grid ColumnDefinitions="*, Auto, Auto, Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                         Text="{Binding SearchText, Mode=TwoWay}"
+                         Watermark="Buscar por nombre o cédula..."
+                         FontSize="14" />
+
+                <CheckBox Grid.Column="2"
+                          Content="Incluir inactivos"
+                          IsChecked="{Binding IncludeInactive, Mode=TwoWay}"
+                          VerticalAlignment="Center" />
+
+                <ComboBox Grid.Column="4"
+                          SelectedIndex="{Binding CurrentPage, Mode=TwoWay}"
+                          Width="100"
+                          VerticalAlignment="Center"
+                          IsVisible="{Binding TotalPages, Converter={StaticResource IsGreaterThanOne}}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <StackPanel Grid.Column="6" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Button Content="◀ Anterior"
+                            Command="{Binding PreviousPageCommand}"
+                            IsEnabled="{Binding HasPreviousPage}"
+                            Padding="12,6" />
+                    <Button Content="Siguiente ▶"
+                            Command="{Binding NextPageCommand}"
+                            IsEnabled="{Binding HasNextPage}"
+                            Padding="12,6" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Employee Grid -->
+        <Border Grid.Row="2" Background="{DynamicResource SurfaceBrush}"
+                CornerRadius="8"
+                BorderBrush="{DynamicResource DividerBrush}"
+                BorderThickness="1">
+            <Grid RowDefinitions="*, Auto">
+                <DataGrid Grid.Row="0"
+                          ItemsSource="{Binding Employees}"
+                          SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserResizeColumns="True"
+                          CanUserSortColumns="True"
+                          GridLinesVisibility="Horizontal"
+                          BorderThickness="0"
+                          Margin="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nombre" Binding="{Binding FullName}" Width="2*" />
+                        <DataGridTextColumn Header="Cédula" Binding="{Binding Cedula}" Width="150" />
+                        <DataGridTextColumn Header="Teléfono" Binding="{Binding Phone}" Width="130" />
+                        <DataGridTextColumn Header="Puesto" Binding="{Binding Position}" Width="*" />
+                        <DataGridTextColumn Header="Salario" Binding="{Binding FormattedSalary}" Width="130" />
+                        <DataGridTemplateColumn Header="Estado" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Ellipse Width="10" Height="10"
+                                                 Fill="{Binding Status, Converter={StaticResource ActiveToColor}}"
+                                                 VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding StatusText}"
+                                                   VerticalAlignment="Center"
+                                                   FontWeight="Medium" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Acciones" Width="220">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                                        <Button Content="Editar"
+                                                Command="{Binding $parent[DataGrid].((vm:EmployeeListViewModel)DataContext).EditEmployeeCommand}"
+                                                CommandParameter="{Binding}"
+                                                IsEnabled="{Binding $parent[DataGrid].((vm:EmployeeListViewModel)DataContext).CanEdit}"
+                                                MinWidth="64" Height="40"
+                                                Padding="8,4"
+                                                Background="{DynamicResource SurfaceBrush}"
+                                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                                ToolTip.Tip="Editar" />
+                                        <Button Content="Desactivar"
+                                                Command="{Binding $parent[DataGrid].((vm:EmployeeListViewModel)DataContext).DeleteEmployeeCommand}"
+                                                CommandParameter="{Binding}"
+                                                IsEnabled="{Binding $parent[DataGrid].((vm:EmployeeListViewModel)DataContext).CanDelete}"
+                                                MinWidth="64" Height="40"
+                                                Padding="8,4"
+                                                Background="{DynamicResource ErrorSurfaceBrush}"
+                                                Foreground="{DynamicResource ErrorBrush}"
+                                                ToolTip.Tip="Desactivar" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Empty State -->
+                <TextBlock Grid.Row="0"
+                           Text="No hay empleados registrados"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{DynamicResource SecondaryTextBrush}"
+                           FontSize="16"
+                           IsVisible="{Binding Employees.Count, Converter={StaticResource IsZero}}" />
+
+                <!-- Pagination Info -->
+                <StackPanel Grid.Row="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Spacing="16"
+                            Margin="0,12"
+                            IsVisible="{Binding TotalCount, Converter={StaticResource IsGreaterThanZero}}">
+                    <TextBlock Text="{Binding TotalCount, StringFormat='Total: {0} empleados'}"
+                               FontSize="13"
+                               Foreground="{DynamicResource SecondaryTextBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding CurrentPage, StringFormat='Página {0} de {1}'}"
+                               FontSize="13"
+                               Foreground="{DynamicResource SecondaryTextBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

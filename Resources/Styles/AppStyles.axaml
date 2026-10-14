@@ -1,0 +1,197 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="PageBrush" Color="#F3F5F8" />
+                    <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="SubtleBrush" Color="#EAF0F6" />
+                    <SolidColorBrush x:Key="DividerBrush" Color="#CBD5E1" />
+                    <SolidColorBrush x:Key="PrimaryTextBrush" Color="#172B4D" />
+                    <SolidColorBrush x:Key="SecondaryTextBrush" Color="#475569" />
+                    <SolidColorBrush x:Key="AccentBrush" Color="#1D4ED8" />
+                    <SolidColorBrush x:Key="AccentHoverBrush" Color="#1E40AF" />
+                    <SolidColorBrush x:Key="AccentTextBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="SuccessBrush" Color="#166534" />
+                    <SolidColorBrush x:Key="ErrorBrush" Color="#B91C1C" />
+                    <SolidColorBrush x:Key="ErrorSurfaceBrush" Color="#FEF2F2" />
+                    <SolidColorBrush x:Key="WarningSurfaceBrush" Color="#FFFBEB" />
+                    <SolidColorBrush x:Key="WarningTextBrush" Color="#78350F" />
+                    <SolidColorBrush x:Key="WarningBorderBrush" Color="#B45309" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="PageBrush" Color="#111827" />
+                    <SolidColorBrush x:Key="SurfaceBrush" Color="#1F2937" />
+                    <SolidColorBrush x:Key="SubtleBrush" Color="#334155" />
+                    <SolidColorBrush x:Key="DividerBrush" Color="#64748B" />
+                    <SolidColorBrush x:Key="PrimaryTextBrush" Color="#F1F5F9" />
+                    <SolidColorBrush x:Key="SecondaryTextBrush" Color="#CBD5E1" />
+                    <SolidColorBrush x:Key="AccentBrush" Color="#93C5FD" />
+                    <SolidColorBrush x:Key="AccentHoverBrush" Color="#BFDBFE" />
+                    <SolidColorBrush x:Key="AccentTextBrush" Color="#172B4D" />
+                    <SolidColorBrush x:Key="SuccessBrush" Color="#86EFAC" />
+                    <SolidColorBrush x:Key="ErrorBrush" Color="#FCA5A5" />
+                    <SolidColorBrush x:Key="ErrorSurfaceBrush" Color="#450A0A" />
+                    <SolidColorBrush x:Key="WarningSurfaceBrush" Color="#422006" />
+                    <SolidColorBrush x:Key="WarningTextBrush" Color="#FEF3C7" />
+                    <SolidColorBrush x:Key="WarningBorderBrush" Color="#FBBF24" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+
+    <Style Selector="Window">
+        <Setter Property="Background" Value="{DynamicResource PageBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style Selector="UserControl">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+    </Style>
+    <Style Selector="Button">
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="16,8" />
+    </Style>
+    <Style Selector="Border.warning TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource WarningTextBrush}" />
+    </Style>
+
+    <!-- Navigation Button Styles -->
+    <Style Selector="Button.nav-button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="12,10" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+    </Style>
+
+    <Style Selector="Button.nav-button:disabled">
+        <Setter Property="Foreground" Value="{DynamicResource DividerBrush}" />
+        <Setter Property="Opacity" Value="0.5" />
+    </Style>
+
+    <Style Selector="Button.nav-button:enabled">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+    </Style>
+
+    <Style Selector="Button.nav-button:enabled:pointerover">
+        <Setter Property="Background" Value="{DynamicResource SubtleBrush}" />
+    </Style>
+
+    <Style Selector="Button.nav-button:enabled:pressed">
+        <Setter Property="Background" Value="{DynamicResource SubtleBrush}" />
+    </Style>
+
+    <!-- Accent Button -->
+    <Style Selector="Button.accent">
+        <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    
+    <Style Selector="Button.accent:pointerover">
+        <Setter Property="Background" Value="{DynamicResource AccentHoverBrush}" />
+    </Style>
+    
+    <Style Selector="Button.accent:pressed">
+        <Setter Property="Background" Value="{DynamicResource AccentHoverBrush}" />
+    </Style>
+    
+    <Style Selector="Button.accent:disabled">
+        <Setter Property="Opacity" Value="0.5" />
+    </Style>
+
+    <!-- Flat Button -->
+    <Style Selector="Button.flat">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentBrush}" />
+        <Setter Property="Padding" Value="8,4" />
+    </Style>
+    
+    <Style Selector="Button.flat:pointerover">
+        <Setter Property="Background" Value="{DynamicResource SubtleBrush}" />
+    </Style>
+
+    <!-- Card Border -->
+    <Style Selector="Border.card">
+        <Setter Property="Background" Value="{DynamicResource SurfaceBrush}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <!-- Input Styles -->
+    <Style Selector="TextBox">
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="4" />
+    </Style>
+    
+    <Style Selector="TextBox:focus">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+    </Style>
+    
+    <Style Selector="ComboBox">
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    
+    <Style Selector="DatePicker">
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <!-- DataGrid Styles -->
+    <Style Selector="DataGrid">
+        <Setter Property="Background" Value="{DynamicResource PageBrush}" />
+        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource DividerBrush}" />
+        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource DividerBrush}" />
+        <Setter Property="RowBackground" Value="Transparent" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    
+    <Style Selector="DataGridColumnHeader">
+        <Setter Property="Background" Value="{DynamicResource SurfaceBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="12,10" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}" />
+    </Style>
+    
+    <Style Selector="DataGridCell">
+        <Setter Property="Padding" Value="12,10" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    
+    <Style Selector="DataGridRow:selected /template/ DataGridCell">
+        <Setter Property="Background" Value="{DynamicResource AccentHoverBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}" />
+    </Style>
+
+    <!-- ProgressBar -->
+    <Style Selector="ProgressBar">
+        <Setter Property="Height" Value="4" />
+        <Setter Property="Background" Value="{DynamicResource SubtleBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentBrush}" />
+    </Style>
+
+    <!-- Separator -->
+    <Style Selector="Separator">
+        <Setter Property="Margin" Value="0,8" />
+    </Style>
+    <Style Selector="Button:focus-visible">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+    </Style>
+</Styles>

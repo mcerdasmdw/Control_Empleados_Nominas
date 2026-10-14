@@ -1,0 +1,120 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Planilla_RRHH.ViewModels"
+        xmlns:views="using:Planilla_RRHH.Views"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DesignWidth="1200" d:DesignHeight="800"
+        x:Class="Planilla_RRHH.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="{Binding WindowTitle}"
+        Width="1200"
+        Height="800"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/avalonia-logo.ico">
+
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, *">
+        <!-- Top Bar -->
+        <Border Grid.ColumnSpan="2"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource DividerBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="16,8">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <Button Content="☰"
+                        AutomationProperties.Name="Alternar menú de navegación"
+                        ToolTip.Tip="Alternar menú de navegación"
+                        Command="{Binding ToggleSidebarCommand}"
+                        Width="40"
+                        Height="40"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        FontSize="20"
+                        HorizontalAlignment="Left" />
+                
+                <TextBlock Grid.Column="1"
+                           Text="{Binding WindowTitle}"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center" />
+                
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="12"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Session.Username, FallbackValue='Usuario'}"
+                               VerticalAlignment="Center"
+                               FontWeight="Medium" />
+                    <Button Content="Cerrar sesión"
+                            Command="{Binding LogoutCommand}"
+                            Classes="flat"
+                            VerticalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Sidebar -->
+        <Border Grid.Row="1"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource DividerBrush}"
+                BorderThickness="0,0,1,0"
+                Width="{Binding IsSidebarExpanded, Converter={StaticResource SidebarWidth}}">
+            <Grid RowDefinitions="Auto, *, Auto">
+                <!-- App Brand -->
+                <Border Grid.Row="0"
+                        Padding="16,20"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="0,0,0,1">
+                    <StackPanel Orientation="Horizontal" Spacing="12" IsVisible="{Binding IsSidebarExpanded}">
+                        
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Planilla-RRHH" FontWeight="Bold" FontSize="16" />
+                            <TextBlock Text="Gestión de empleados" FontSize="12" Foreground="{DynamicResource SecondaryTextBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Navigation -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="4" Margin="8,12">
+                        <ItemsControl ItemsSource="{Binding NavigationItems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding Title}"
+                                            Command="{Binding Action}"
+                                            IsEnabled="{Binding IsEnabled}"
+                                            Classes="nav-button">
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Footer -->
+                <Border Grid.Row="2"
+                        Padding="16"
+                        BorderBrush="{DynamicResource DividerBrush}"
+                        BorderThickness="0,1,0,0">
+                    <TextBlock Text="v1.0.0 MVP"
+                               FontSize="12"
+                               Foreground="{DynamicResource SecondaryTextBrush}"
+                               HorizontalAlignment="Center" />
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Border Grid.Row="1" Grid.Column="1"
+                Background="{DynamicResource PageBrush}"
+                Margin="0">
+            <ContentControl Content="{Binding CurrentView}" />
+        </Border>
+    </Grid>
+</Window>

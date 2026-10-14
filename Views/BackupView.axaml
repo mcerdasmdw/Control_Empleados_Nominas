@@ -1,0 +1,164 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Planilla_RRHH.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="1000" d:DesignHeight="700"
+             x:Class="Planilla_RRHH.Views.BackupView"
+             x:DataType="vm:BackupViewModel">
+
+    <Design.DataContext>
+        <vm:BackupViewModel />
+    </Design.DataContext>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="24" Spacing="24">
+        <!-- Header -->
+        <Grid ColumnDefinitions="*, Auto">
+            <StackPanel Spacing="4">
+                <TextBlock Text="Copias de seguridad"
+                           FontSize="28"
+                           FontWeight="Bold" />
+                <TextBlock Text="Cree y restaure copias de seguridad de la base de datos"
+                           FontSize="14"
+                           Foreground="{DynamicResource SecondaryTextBrush}" />
+            </StackPanel>
+
+            <Button Grid.Column="1"
+                    Content="Crear backup"
+                    Command="{Binding CreateBackupCommand}"
+                    Height="40"
+                    Padding="20,0"
+                    FontSize="14"
+                    FontWeight="Medium"
+                    Classes="accent"
+                    VerticalAlignment="Bottom" />
+        </Grid>
+
+        <!-- Warning Banner -->
+        <Border Classes="warning" Background="{DynamicResource WarningSurfaceBrush}"
+                CornerRadius="8"
+                Padding="16"
+                BorderBrush="{DynamicResource WarningBorderBrush}"
+                BorderThickness="1">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <TextBlock Text="⚠️" FontSize="24" VerticalAlignment="Center" />
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="La restauración reemplaza COMPLETAMENTE la base de datos actual"
+                               FontWeight="Bold" FontSize="14" />
+                    <TextBlock Text="Se perderán todos los cambios realizados después de la copia de seguridad. Se recomienda crear un backup antes de restaurar."
+                               FontSize="13"
+                               Foreground="{DynamicResource SecondaryTextBrush}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Backups List -->
+        <Border Background="{DynamicResource SurfaceBrush}"
+                CornerRadius="8"
+                BorderBrush="{DynamicResource DividerBrush}"
+                BorderThickness="1">
+            <StackPanel Spacing="0">
+                <StackPanel Orientation="Horizontal" Margin="16,12" Spacing="12">
+                    <TextBlock Text="Historial de backups"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center" />
+                    <Button Content="Actualizar"
+                            Command="{Binding LoadBackupsCommand}"
+                            Margin="16,0,0,0"
+                            Padding="12,6"
+                            VerticalAlignment="Center" />
+                </StackPanel>
+
+                <DataGrid MaxHeight="320" MinHeight="120" ItemsSource="{Binding Backups}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserResizeColumns="True"
+                          CanUserSortColumns="True"
+                          GridLinesVisibility="Horizontal"
+                          BorderThickness="0"
+                          Margin="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Archivo" Binding="{Binding FileName}" Width="2*" />
+                        <DataGridTextColumn Header="Tamaño" Binding="{Binding FormattedSize}" Width="100" />
+                        <DataGridTextColumn Header="Fecha" Binding="{Binding CreatedAt, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" Width="160" />
+                        <DataGridTemplateColumn Header="Acciones" Width="220">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                                        <Button Content="Validar"
+                                                Command="{Binding $parent[DataGrid].((vm:BackupViewModel)DataContext).ValidateBackupCommand}"
+                                                CommandParameter="{Binding}"
+                                                MinWidth="64" Height="40"
+                                                Padding="8,4"
+                                                Background="{DynamicResource SurfaceBrush}"
+                                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                                ToolTip.Tip="Validar backup" />
+                                        <Button Content="Restaurar"
+                                                Command="{Binding $parent[DataGrid].((vm:BackupViewModel)DataContext).RestoreBackupCommand}"
+                                                MinWidth="64" Height="40"
+                                                Padding="8,4"
+                                                Background="{DynamicResource WarningSurfaceBrush}"
+                                                Foreground="{DynamicResource WarningTextBrush}"
+                                                ToolTip.Tip="Restaurar este backup" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock Text="No hay backups registrados"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{DynamicResource SecondaryTextBrush}"
+                           FontSize="16"
+                           IsVisible="{Binding Backups.Count, Converter={StaticResource IsZero}}" />
+            </StackPanel>
+        </Border>
+
+        <!-- Restore Section -->
+        <Border Classes="warning" Background="{DynamicResource WarningSurfaceBrush}"
+                CornerRadius="8"
+                Padding="20"
+                BorderBrush="{DynamicResource WarningBorderBrush}"
+                BorderThickness="1">
+            <StackPanel Spacing="12">
+                <TextBlock Text="Restaurar backup externo"
+                           FontSize="18"
+                           FontWeight="Bold" />
+                <TextBlock Text="Seleccione un archivo de backup (.db) para restaurar la base de datos completa."
+                           FontSize="13"
+                           Foreground="{DynamicResource SecondaryTextBrush}"
+                           TextWrapping="Wrap" />
+                <Button Content="Seleccionar y restaurar backup"
+                        Command="{Binding RestoreBackupCommand}"
+                        IsEnabled="{Binding !IsLoading}"
+                        HorizontalAlignment="Left"
+                        Padding="20,10"
+                        FontSize="14"
+                        Classes="accent" />
+            </StackPanel>
+        </Border>
+
+        <!-- Status & Loading -->
+        <TextBlock Text="{Binding StatusMessage}"
+                   FontSize="13"
+                   Foreground="{DynamicResource SecondaryTextBrush}"
+                   HorizontalAlignment="Center" />
+
+        <TextBlock Text="{Binding ErrorMessage}"
+                   FontSize="13"
+                   Foreground="{DynamicResource ErrorBrush}"
+                   HorizontalAlignment="Center"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource IsNotNullOrEmpty}}" />
+
+        <ProgressBar IsIndeterminate="True"
+                     IsVisible="{Binding IsLoading}"
+                     Margin="0,8,0,0" />
+    </StackPanel>
+    </ScrollViewer>
+</UserControl>
