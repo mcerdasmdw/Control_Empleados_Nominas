@@ -52,3 +52,6 @@ Recuperar originales y requisitos aprobados; reconciliar sin pérdida; resolver 
 
 2026-10-13: R-G01/T-G01 conexión GitHub autorizada. Git inicializado en main, origin https://github.com/mcerdasmdw/Control_Empleados_Nominas.git, fetch/ls-remote exitosos sin refs (remoto vacío). README local preservado. .gitignore excluye .env y .venv. Pendientes identidad de autor, commit Inicio del proyecto y push verificado.
 
+
+2026-10-13: R-G01/T-G01 completada: autor local Maikol <mcerdasmdw@gmail.com> indicado por usuario; commit a672a69 Inicio del proyecto (2868 archivos), push main exitoso y seguimiento origin/main configurado. Sin borrado de archivos. Remoto inicialmente vacío, README local preservado. Exclusiones .env/.venv verificadas. Registro final se publica en commit documental adicional.
+

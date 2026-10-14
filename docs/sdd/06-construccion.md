@@ -80,3 +80,6 @@ T-A01 ejecutada: Backend-Coder creó verification/admin/AdminProvision.csproj, P
 Fuente y aprobación: solicitud explícita del usuario de conectar esta carpeta a https://github.com/mcerdasmdw/Control_Empleados_Nominas.git, rama main, excluir .env/.venv y publicar con mensaje Inicio del proyecto sin borrar archivos. Criterios: origin correcto, main, exclusiones verificadas, README remoto conservado si existe y push verificado.
 Ejecutado: git init -b main, remote add origin y fetch origin. ls-remote y fetch exitosos sin referencias: remoto vacío al consultar; README local intacto, no existe README remoto recuperable en este estado. .gitignore creado. Commit/push pendientes de identidad del autor.
 
+
+R-G01/T-G01 completada: identidad local autorizada Maikol <mcerdasmdw@gmail.com>. Commit a672a69 Inicio del proyecto y git push -u origin main exitosos: new branch main -> main, seguimiento origin/main configurado. git check-ignore verificó .env, .venv y .venv/prueba.txt. README local conservado: remoto consultado vacío. Sin pruebas de aplicación (cambio de control de versiones). Registro final en commit documental adicional.
+
